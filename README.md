@@ -23,7 +23,6 @@ A proposta foi tornar hábitos e biblioteca menos passivos:
 
 - Hábitos precisavam comunicar consistência diária rapidamente.
 - A biblioteca precisava começar útil mesmo sem conteúdo cadastrado.
-- Adicionar um livro não deveria exigir digitação manual de todos os dados.
 - A experiência deveria manter linguagem de aplicativo mobile.
 - A interface precisava continuar funcional, acessível e tipada.
 
@@ -44,14 +43,11 @@ A proposta foi tornar hábitos e biblioteca menos passivos:
 - Capas e metadados vindos da API.
 - Recomendações remotas.
 - Organização por status de leitura.
-- Adição por modal sem cadastro manual.
-- Exclusão por gesto de arrastar.
 - Atualização de páginas e percentual.
-- Sessão de leitura com timer.
 
 ## Decisões de produto
 
-- **Mobile como plataforma principal:**a interface foi projetada para reproduzir a experiência de um aplicativo, mantendo largura máxima de 430 px inclusive em navegadores desktop.
+- **Mobile como plataforma principal:** a interface foi projetada para reproduzir a experiência de um aplicativo, mantendo largura máxima de 430 px inclusive em navegadores desktop.
 - **Biblioteca vazia por padrão:** demonstra onboarding e evita conteúdo artificial apresentado como dado do usuário.
 - **Catálogo externo:** reduz fricção e melhora a qualidade dos dados adicionados.
 - **Feedback imediato:** filtros, checklists, toasts, loading e erros respondem diretamente às ações.
@@ -123,8 +119,6 @@ src/
     lib/           utilitários sem dependência de domínio
 ```
 
-Detalhes: [Arquitetura](docs/ARCHITECTURE.md) · [API e integração](docs/API.md) · [Case completo](docs/CASE-STUDY.md)
-
 ## Persistência e escopo
 
 Este case é um frontend sem autenticação e sem backend próprio:
@@ -147,10 +141,9 @@ npm run build
 
 Também foram considerados:
 
-- viewport mobile e ausência de overflow horizontal;
 - áreas de toque e feedback visual;
 - navegação por teclado em botões e formulários;
 - loading, vazio e erro na integração externa;
 - cancelamento de requisições obsoletas;
-- conteúdo não oculto pela navegação fixa.
+
 
