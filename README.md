@@ -51,7 +51,7 @@ A proposta foi tornar hábitos e biblioteca menos passivos:
 
 ## Decisões de produto
 
-- **Mobile como plataforma principal:** a interface permanece limitada a 430 px até no desktop, simulando o aplicativo.
+- **Mobile como plataforma principal:**a interface foi projetada para reproduzir a experiência de um aplicativo, mantendo largura máxima de 430 px inclusive em navegadores desktop.
 - **Biblioteca vazia por padrão:** demonstra onboarding e evita conteúdo artificial apresentado como dado do usuário.
 - **Catálogo externo:** reduz fricção e melhora a qualidade dos dados adicionados.
 - **Feedback imediato:** filtros, checklists, toasts, loading e erros respondem diretamente às ações.
