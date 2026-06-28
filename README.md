@@ -54,19 +54,16 @@ A proposta foi tornar hábitos e biblioteca menos passivos:
 - **Mobile como plataforma principal:** a interface permanece limitada a 430 px até no desktop, simulando o aplicativo.
 - **Biblioteca vazia por padrão:** demonstra onboarding e evita conteúdo artificial apresentado como dado do usuário.
 - **Catálogo externo:** reduz fricção e melhora a qualidade dos dados adicionados.
-- **Ações contextuais:** adição usa modal; leitura e progresso usam telas dedicadas.
 - **Feedback imediato:** filtros, checklists, toasts, loading e erros respondem diretamente às ações.
 
 ## Decisões de engenharia
 
 - React 18 e TypeScript estrito.
-- Tailwind CSS puro, sem shadcn/ui ou Radix UI.
+- Tailwind CSS.
 - Componentes separados por domínio.
 - Contratos explícitos para payload externo e modelos internos.
 - `AbortController` e debounce nas buscas.
-- Portals para modais e telas que não podem ser recortados pelo shell.
 - Elementos semânticos, labels e `aria-label` nas ações de ícone.
-- Sem `any` e sem dependências desnecessárias.
 
 ## Stack
 
@@ -157,15 +154,3 @@ Também foram considerados:
 - cancelamento de requisições obsoletas;
 - conteúdo não oculto pela navegação fixa.
 
-## Próximas evoluções
-
-- Backend e autenticação.
-- Persistência de biblioteca e sessões.
-- Sincronização entre dispositivos.
-- Testes automatizados de interação.
-- Implementação das áreas Início, Copa e Mais.
-- Alternativa visível ao swipe para acessibilidade completa.
-
-## Design
-
-A interface foi construída a partir das referências visuais fornecidas para o case. Não foi disponibilizado arquivo público do Figma.
