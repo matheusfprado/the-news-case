@@ -167,4 +167,4 @@ Também foram considerados:
 
 ## Design
 
-A interface foi construída a partir das referências visuais fornecidas para o case. Não foi disponibilizado arquivo público do Figma.
+A interface foi construída a partir das referências visuais fornecidas do figma.
