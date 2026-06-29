@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BookOpen, Check, LibraryBig, LoaderCircle, ScanBarcode, Search, X } from "lucide-react";
+import { BookOpen, Check, LibraryBig, LoaderCircle, Search, X } from "lucide-react";
 import { AppModal } from "@/features/library/components/AppModal";
 import { searchBooks, type BookSearchResult } from "@/features/library/services/openLibrary";
 import type { LibraryBook, LibraryStatus } from "@/features/library/types";
@@ -19,6 +19,7 @@ export function AddBookDialog({ open, onClose, onAdd }: AddBookDialogProps) {
   const [status, setStatus] = useState<LibraryStatus>("Quero Ler");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [retryKey, setRetryKey] = useState(0);
 
   useEffect(() => {
     if (!open || query.trim().length < 3) { setResults([]); setLoading(false); setError(null); return; }
@@ -30,7 +31,7 @@ export function AddBookDialog({ open, onClose, onAdd }: AddBookDialogProps) {
       finally { if (!controller.signal.aborted) setLoading(false); }
     }, 400);
     return () => { window.clearTimeout(timeout); controller.abort(); };
-  }, [open, query]);
+  }, [open, query, retryKey]);
 
   if (!open) return null;
 
@@ -41,17 +42,17 @@ export function AddBookDialog({ open, onClose, onAdd }: AddBookDialogProps) {
   }
 
   return (
-    <AppModal title="Adicionar Livro" onClose={onClose} footer={selected ? <button type="button" onClick={addSelected} className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-b from-[#ffd400] to-[#edb91c] text-sm font-black text-black"><span className="flex h-4 w-4 items-center justify-center rounded-full bg-black text-[#ffd400]">+</span> Adicionar Livro</button> : undefined}>
-      <div className="flex gap-2"><label className="relative min-w-0 flex-1"><span className="sr-only">Buscar livro</span><Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" /><input autoFocus value={query} onChange={(event) => { setQuery(event.target.value); setSelected(null); }} placeholder="Buscar por título, autor ou ISBN..." className="h-12 w-full rounded-xl bg-[#181822] pl-10 pr-10 text-xs text-white outline-none placeholder:text-zinc-500 focus:ring-1 focus:ring-[#ffd400]" />{query && <button type="button" onClick={() => setQuery("")} aria-label="Limpar busca" className="absolute right-2 top-1/2 flex h-5 w-5 -translate-y-1/2 items-center justify-center rounded-full bg-zinc-400 text-[#181822]"><X className="h-3 w-3" /></button>}</label><button type="button" aria-label="Ler código de barras" className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#181822] text-[#ffd400]"><ScanBarcode className="h-5 w-5" /></button></div>
+    <AppModal title="Adicionar Livro" onClose={onClose} footer={selected ? <button type="button" onClick={addSelected} className="flex min-h-11 w-full items-center justify-center rounded-lg bg-[#F5C000] text-sm font-black text-black">Adicionar livro</button> : undefined}>
+      <label className="relative block"><span className="mb-2 block text-xs font-bold text-zinc-300">Buscar livro</span><Search className="pointer-events-none absolute bottom-4 left-3 h-4 w-4 text-zinc-400" /><input data-autofocus value={query} onChange={(event) => { setQuery(event.target.value); setSelected(null); }} placeholder="Título, autor ou ISBN" className="h-12 w-full rounded-xl bg-[#181822] pl-10 pr-12 text-base text-white outline-none placeholder:text-zinc-500 focus:ring-2 focus:ring-[#F5C000]" />{query && <button type="button" onClick={() => setQuery("")} aria-label="Limpar busca" className="absolute bottom-0 right-0 flex h-12 w-12 items-center justify-center rounded-xl text-zinc-400 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5C000]"><X className="h-4 w-4" /></button>}</label>
 
       <div className="mt-4 space-y-2" aria-live="polite">
         {loading && <div className="flex min-h-28 items-center justify-center gap-2 text-xs text-zinc-500"><LoaderCircle className="h-4 w-4 animate-spin" /> Buscando...</div>}
-        {error && <p className="rounded-xl border border-red-500/20 bg-red-500/5 p-3 text-center text-xs text-red-400">{error}</p>}
+        {error && <div role="alert" className="rounded-xl border border-red-500/20 bg-red-500/5 p-3 text-center text-xs text-red-400"><p>{error}</p><button type="button" onClick={() => setRetryKey((current) => current + 1)} className="mt-3 min-h-11 rounded-lg border border-red-400/30 px-4 font-bold text-red-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-300">Tentar novamente</button></div>}
         {!loading && !error && query.trim().length < 3 && <div className="flex min-h-[430px] flex-col items-center justify-center text-center"><Search className="h-12 w-12 text-zinc-400" strokeWidth={1.4} /><p className="mt-4 text-xs font-bold text-zinc-300">Busque um livro</p><p className="mt-2 text-[10px] text-zinc-500">Digite pelo menos 3 caracteres</p></div>}
         {!loading && !error && query.trim().length >= 3 && results.length === 0 && <div className="flex min-h-[430px] flex-col items-center justify-center text-center"><BookOpen className="h-10 w-10 text-zinc-700" /><p className="mt-4 text-xs font-bold text-zinc-300">Nenhum livro encontrado</p><p className="mt-2 text-[10px] text-zinc-500">Tente outro título, autor ou ISBN</p></div>}
         {!loading && query.trim().length >= 3 && results.map((book) => {
           const active = selected?.id === book.id;
-          return <button key={book.id} type="button" onClick={() => setSelected(book)} className={`flex w-full items-center gap-3 rounded-xl border p-2 text-left transition-colors ${active ? "border-[#ffd400] bg-[#24220a]" : "border-transparent bg-[#181822] hover:border-zinc-700"}`}>{book.coverUrl ? <img src={book.coverUrl} alt="" className="h-[70px] w-12 shrink-0 rounded object-cover" /> : <span className="flex h-[70px] w-12 shrink-0 items-center justify-center rounded bg-zinc-900"><BookOpen className="h-4 w-4 text-zinc-700" /></span>}<span className="min-w-0 flex-1"><strong className="line-clamp-2 text-xs text-white">{book.title}</strong><span className="mt-1 block truncate text-[10px] text-zinc-500">{book.author}</span><span className="mt-1 block text-[9px] text-zinc-600">{book.totalPages} páginas</span></span>{active && <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#ffd400] text-black"><Check className="h-3 w-3" strokeWidth={3} /></span>}</button>;
+          return <button key={book.id} type="button" onClick={() => setSelected(book)} className={`flex w-full items-center gap-3 rounded-xl border p-2 text-left transition-colors ${active ? "border-[#F5C000] bg-[#24220a]" : "border-transparent bg-[#181822] hover:border-zinc-700"}`}>{book.coverUrl ? <img src={book.coverUrl} alt="" className="h-[70px] w-12 shrink-0 rounded object-cover" /> : <span className="flex h-[70px] w-12 shrink-0 items-center justify-center rounded bg-zinc-900"><BookOpen className="h-4 w-4 text-zinc-700" /></span>}<span className="min-w-0 flex-1"><strong className="line-clamp-2 text-xs text-white">{book.title}</strong><span className="mt-1 block truncate text-[10px] text-zinc-500">{book.author}</span><span className="mt-1 block text-[9px] text-zinc-600">{book.totalPages} páginas</span></span>{active && <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#F5C000] text-black"><Check className="h-3 w-3" strokeWidth={3} /></span>}</button>;
         })}
       </div>
 

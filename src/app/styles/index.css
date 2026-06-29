@@ -12,7 +12,7 @@
     --card: 240 6% 9%;
     --muted: 240 5% 12%;
     --border: 240 7% 16%;
-    --primary: 50 100% 50%;
+    --primary: 47 100% 48%;
     --primary-foreground: 0 0% 2%;
   }
 
@@ -27,12 +27,22 @@
 
   button, a, summary { touch-action: manipulation; }
 
-  ::selection { background: #ffd400; color: #000; }
+  ::selection { background: #F5C000; color: #000; }
 }
 
 @layer utilities {
   .min-h-dvh { min-height: 100dvh; }
   .toast { border: 1px solid hsl(var(--border)) !important; background: #151518 !important; color: #f5f5f5 !important; }
+
+  /* Mantém textos auxiliares legíveis sem alterar a hierarquia visual. */
+  .text-\[7px\],
+  .text-\[8px\],
+  .text-\[9px\],
+  .text-\[10px\],
+  .text-\[11px\] {
+    font-size: 0.75rem !important;
+    line-height: 1rem !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -44,6 +54,13 @@
   }
 }
 
-@media (min-width: 640px) {
-  body { background-image: radial-gradient(circle at 50% 15%, rgba(255, 212, 0, 0.06), transparent 30rem); }
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  scroll-behavior: auto !important;
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
 }
+
+.high-contrast body { filter: contrast(1.12); }

@@ -1,20 +1,22 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { HabitsPage } from "@/features/habits";
 import { LibraryPage } from "@/features/library";
-import { PlaceholderPage } from "@/app/pages/PlaceholderPage";
+import { CupPage } from "@/features/cup";
+import { EditionPage } from "@/features/edition";
+import { MorePage } from "@/features/more";
 import { AppShell } from "@/shared/components/layout/AppShell";
 
 export default function App() {
   return (
     <Routes>
       <Route element={<AppShell />}>
-        <Route index element={<Navigate to="/habitos" replace />} />
+        <Route index element={<Navigate to="/inicio" replace />} />
         <Route path="habitos" element={<HabitsPage />} />
         <Route path="biblioteca" element={<LibraryPage />} />
-        <Route path="inicio" element={<PlaceholderPage title="Início" />} />
-        <Route path="copa" element={<PlaceholderPage title="Copa" />} />
-        <Route path="mais" element={<PlaceholderPage title="Mais" />} />
-        <Route path="*" element={<Navigate to="/habitos" replace />} />
+        <Route path="inicio" element={<EditionPage />} />
+        <Route path="copa" element={<CupPage />} />
+        <Route path="mais" element={<MorePage />} />
+        <Route path="*" element={<Navigate to="/inicio" replace />} />
       </Route>
     </Routes>
   );

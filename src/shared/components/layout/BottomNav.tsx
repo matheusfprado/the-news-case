@@ -18,11 +18,11 @@ export function BottomNav() {
           <li key={href}>
             <NavLink
               to={href}
-              className={({ isActive }) => cn("flex min-h-14 flex-col items-center justify-center gap-0.5 rounded-xl text-[9px] font-medium text-zinc-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ffd400]", isActive && "text-[#ffd400]")}
+              className={({ isActive }) => cn("flex min-h-14 flex-col items-center justify-center gap-0.5 rounded-xl text-[9px] font-medium text-zinc-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5C000]", isActive && "text-[#F5C000]")}
             >
               {({ isActive }) => (
                 <>
-                  <span className={cn("flex h-9 w-9 items-center justify-center rounded-full", isActive && "bg-[#ffd400] text-black")}>
+                  <span className={cn("flex h-9 w-9 items-center justify-center rounded-full", isActive && "bg-[#F5C000] text-black")}>
                     <Icon className="h-[18px] w-[18px]" strokeWidth={isActive ? 2.5 : 1.7} />
                   </span>
                   {label}

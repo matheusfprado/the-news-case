@@ -3,13 +3,12 @@ import { Card } from "@/shared/components/ui/Primitives";
 
 interface SummaryItem { value: string; label: string; icon: LucideIcon; color: string; background: string }
 
-const items: SummaryItem[] = [
-  { value: "7 dias", label: "sequência", icon: Flame, color: "text-orange-500", background: "bg-orange-500/10" },
-  { value: "4/5", label: "hoje", icon: CheckCircle2, color: "text-emerald-400", background: "bg-emerald-500/10" },
-  { value: "80%", label: "semana", icon: TrendingUp, color: "text-sky-400", background: "bg-sky-500/10" },
-];
-
-export function HabitOverview() {
+export function HabitOverview({ currentStreak, completed, total, weeklyAverage, isToday }: { currentStreak: number; completed: number; total: number; weeklyAverage: number; isToday: boolean }) {
+  const items: SummaryItem[] = [
+    { value: `${currentStreak} ${currentStreak === 1 ? "dia" : "dias"}`, label: "sequência", icon: Flame, color: "text-orange-500", background: "bg-orange-500/10" },
+    { value: `${completed}/${total}`, label: isToday ? "hoje" : "dia", icon: CheckCircle2, color: "text-emerald-400", background: "bg-emerald-500/10" },
+    { value: `${weeklyAverage}%`, label: "semana", icon: TrendingUp, color: "text-sky-400", background: "bg-sky-500/10" },
+  ];
   return (
     <section aria-label="Resumo dos hábitos" className="grid grid-cols-3 gap-2">
       {items.map(({ value, label, icon: Icon, color, background }) => (

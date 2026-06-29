@@ -4,8 +4,11 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "dev": "node scripts/dev.mjs",
+    "dev:web": "vite",
+    "dev:api": "node --watch server/index.mjs",
+    "server": "node server/index.mjs",
+    "build": "tsc -b && vite build --configLoader runner",
     "lint": "eslint . --max-warnings 0",
     "preview": "vite preview"
   },

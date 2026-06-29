@@ -36,7 +36,7 @@ export async function searchBooks(query: string, signal?: AbortSignal): Promise<
     id: book.key.replaceAll("/", "-"),
     title: book.title,
     author: book.author_name?.[0] ?? "Autor desconhecido",
-    totalPages: book.number_of_pages_median ?? 200,
+    totalPages: Math.max(1, book.number_of_pages_median ?? 200),
     coverUrl: book.cover_i ? `${coversBaseUrl}/b/id/${book.cover_i}-M.jpg` : undefined,
   }));
 }

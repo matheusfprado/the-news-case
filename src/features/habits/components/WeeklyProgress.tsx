@@ -1,20 +1,15 @@
 import { Card } from "@/shared/components/ui/Primitives";
+import type { HabitWeekDay } from "@/features/habits/types";
 
-const days = [
-  { label: "S", value: 68 }, { label: "D", value: 35 }, { label: "S", value: 22 },
-  { label: "T", value: 78 }, { label: "Q", value: 32 }, { label: "Q", value: 65 },
-  { label: "S", value: 82, current: true },
-];
-
-export function WeeklyProgress() {
+export function WeeklyProgress({ days, average }: { days: HabitWeekDay[]; average: number }) {
   return (
     <Card className="p-3">
-      <div className="flex items-center justify-between"><h2 className="text-xs font-black text-white">Esta Semana</h2><p className="text-[10px] text-zinc-700">Média <strong className="text-[#ffd400]">80%</strong></p></div>
-      <div className="mt-3 flex h-14 items-end gap-1.5">
+      <div className="flex items-center justify-between"><h2 className="text-xs font-black text-white">Esta Semana</h2><p className="text-[10px] text-zinc-500">Média <strong className="text-[#F5C000]">{average}%</strong></p></div>
+      <div className="mt-3 flex h-14 items-end gap-1.5" role="img" aria-label={`Progresso médio da semana: ${average}%`}>
         {days.map((day, index) => (
           <div key={`${day.label}-${index}`} className="flex h-full flex-1 flex-col justify-end gap-1">
-            <span className={`w-full rounded-sm ${day.current ? "bg-[#ffd400]" : "bg-[#5b4b00]"}`} style={{ height: `${day.value}%` }} />
-            <span className={`text-center text-[7px] font-bold ${day.current ? "text-[#ffd400]" : "text-zinc-700"}`}>{day.label}</span>
+            <span className={`w-full rounded-sm ${day.isToday ? "bg-[#F5C000]" : "bg-[#5b4b00]"}`} style={{ height: `${Math.max(day.progress, 4)}%` }} title={`${day.day}: ${day.progress}%`} />
+            <span className={`text-center text-[8px] font-bold ${day.isToday ? "text-[#F5C000]" : "text-zinc-500"}`}>{day.label}</span>
           </div>
         ))}
       </div>

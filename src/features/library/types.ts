@@ -10,3 +10,10 @@ export interface LibraryBook {
   cover: "blue" | "green" | "purple" | "orange";
   coverUrl?: string;
 }
+
+export interface ReadingSession {
+  elapsedSeconds: number;
+  startedAt: number | null;
+}
+
+export type ReadingSessions = Record<string, ReadingSession>;

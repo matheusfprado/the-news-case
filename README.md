@@ -89,22 +89,25 @@ Copy-Item .env.example .env.local
 
 ## Scripts
 
-| Comando | Descrição |
-| --- | --- |
-| `npm run dev` | Ambiente local |
-| `npm run lint` | Validação estática |
-| `npm run build` | Typecheck e build de produção |
-| `npm run preview` | Preview da build |
+| Comando           | Descrição                     |
+| ----------------- | ----------------------------- |
+| `npm run dev`     | Ambiente local                |
+| `npm run dev:web` | Somente o frontend            |
+| `npm run dev:api` | Somente a API com reload      |
+| `npm run server`  | API sem reload                |
+| `npm run lint`    | Validação estática            |
+| `npm run build`   | Typecheck e build de produção |
+| `npm run preview` | Preview da build              |
 
 ## Rotas
 
-| Rota | Situação |
-| --- | --- |
-| `/habitos` | Implementada |
-| `/biblioteca` | Implementada |
-| `/inicio` | Placeholder |
-| `/copa` | Placeholder |
-| `/mais` | Placeholder |
+| Rota          | Situação                                       |
+| ------------- | ---------------------------------------------- |
+| `/habitos`    | Implementada                                   |
+| `/biblioteca` | Implementada                                   |
+| `/inicio`     | Edição diária, categorias, leitura e salvos    |
+| `/copa`       | Agenda, lembretes, chaveamento e notícias      |
+| `/mais`       | Salvos, lembretes, preferências e dados locais |
 
 ## Arquitetura resumida
 
@@ -114,6 +117,9 @@ src/
   features/
     habits/        componentes, dados, regras e página de hábitos
     library/       catálogo, livros, timer, progresso e integração
+    edition/       edição diária, categorias e leitura
+    cup/           agenda da Copa, chaveamento e notícias
+    more/          salvos, preferências e privacidade
   shared/
     components/    layout e primitivas reutilizáveis
     lib/           utilitários sem dependência de domínio
@@ -121,12 +127,15 @@ src/
 
 ## Persistência e escopo
 
-Este case é um frontend sem autenticação e sem backend próprio:
+Este protótipo usa uma API Node local, sem autenticação:
 
-- Livros e progresso ficam em estado React e são reiniciados ao recarregar.
-- O timer é reiniciado ao fechar a tela.
-- O check-in semanal usa `localStorage`.
+- Os dados são sincronizados em `server/data/store.json` por um ID anônimo do navegador.
+- O `localStorage` continua como fallback quando a API estiver indisponível.
+- O timer mantém o tempo correto ao fechar a tela ou recarregar o aplicativo.
+- Hábitos diários e check-ins semanais são persistidos por data.
+- Notícias salvas, lembretes da Copa e preferências também usam `localStorage`.
 - Catálogo, capas e recomendações dependem da Open Library.
+- A agenda da Copa usa um recorte do [calendário oficial da FIFA](https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/match-schedule-fixtures-results-teams-stadiums), atualizado em 28 de junho de 2026.
 
 Essa separação é intencional: a implementação demonstra o fluxo completo sem fingir uma persistência inexistente. A documentação de API descreve os contratos necessários para evolução.
 
@@ -145,5 +154,17 @@ Também foram considerados:
 - navegação por teclado em botões e formulários;
 - loading, vazio e erro na integração externa;
 - cancelamento de requisições obsoletas;
+- conteúdo não oculto pela navegação fixa.
 
+## Próximas evoluções
 
+- Backend e autenticação.
+- Persistência de biblioteca e sessões.
+- Sincronização entre dispositivos.
+- Testes automatizados de interação.
+- Implementação das áreas Início, Copa e Mais.
+- Alternativa visível ao swipe para acessibilidade completa.
+
+## Design
+
+A interface foi construída a partir das referências visuais fornecidas para o case. Não foi disponibilizado arquivo público do Figma.
